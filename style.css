@@ -1,0 +1,148 @@
+/* Reset */
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Maze Container */
+#mazeContainer {
+  display: inline-block;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+
+#mazeCanvas {
+  margin: 0;
+  display: block;
+  border: solid 1px black;
+}
+
+/* Inputs & Selects */
+input, select {
+  cursor: pointer;
+  background-color: rgba(255, 182, 193, 0.6); /* pastel pink */
+  height: 45px;
+  width: 150px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #333;
+  font-size: 15px;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+input:hover, select:hover {
+  background-color: rgba(173, 216, 230, 0.7); /* pastel blue */
+}
+
+input:active, select:active {
+  background-color: rgba(255, 255, 153, 0.8); /* pastel yellow */
+}
+
+input:focus, select:focus {
+  outline: none;
+}
+
+/* Custom Select */
+.custom-select select {
+  appearance: none;
+  background-image: url('data:image/png;base64,...'); /* arrow icon */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Message Container */
+#Message-Container {
+  visibility: hidden;
+  color: #333;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 1;
+}
+
+#message {
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: -150px;
+  background-color: rgba(255, 228, 225, 0.9); /* baby pink */
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Page & Menu */
+#page {
+  text-align: center;
+  margin: auto;
+}
+
+#menu {
+  margin: auto;
+  padding: 10px;
+  height: 65px;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 3.2rem;
+  color: #444;
+}
+
+/* View */
+#view {
+  position: absolute;
+  top: 65px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* Gradient Background */
+#gradient {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(-45deg, #ffd1dc, #fdfd96, #aec6cf, #b0e0e6); /* pastel pink, yellow, blue */
+  background-size: 400% 400%;
+  animation: Gradient 15s ease infinite;
+}
+
+@keyframes Gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Responsive */
+@media only screen and (max-width: 400px) {
+  input, select {
+    width: 120px;
+  }
+}
