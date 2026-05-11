@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Maze Game - AI Assignment</title>
   <style>
-    /* Reset */
     html, body {
       width: 100vw;
       height: 100vh;
@@ -21,7 +20,6 @@
       touch-action: none;
     }
 
-    /* Maze Container */
     #mazeContainer {
       display: inline-block;
       margin: auto;
@@ -45,7 +43,6 @@
       touch-action: none;
     }
 
-    /* Timer Display */
     .timer-section {
       background-color: rgba(255, 255, 255, 0.8);
       padding: 10px 20px;
@@ -62,7 +59,6 @@
       display: block;
     }
 
-    /* Inputs & Selects & Buttons */
     input, select, button {
       cursor: pointer;
       background-color: rgba(255, 182, 193, 0.8);
@@ -123,7 +119,6 @@
       background-color: rgba(173, 216, 230, 0.9);
     }
 
-    /* Disabled state */
     button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
@@ -134,7 +129,6 @@
       background-color: rgba(200, 200, 200, 0.8);
     }
 
-    /* Message Container */
     #Message-Container {
       visibility: hidden;
       color: #333;
@@ -156,10 +150,7 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      margin-left: -42.5vw;
-      margin-left: calc(-42.5vw);
-      max-margin-left: -150px;
-      margin-top: -125px;
+      transform: translate(-50%, -50%);
       background-color: rgba(255, 228, 225, 0.95);
       border-radius: 10px;
       padding: 30px;
@@ -185,7 +176,6 @@
       margin-top: 15px;
     }
 
-    /* Solution Info */
     .solution-info {
       background-color: rgba(100, 200, 150, 0.9);
       padding: 15px 20px;
@@ -202,7 +192,6 @@
       display: block;
     }
 
-    /* Page & Menu */
     #page {
       text-align: center;
       margin: auto;
@@ -244,7 +233,6 @@
       color: #444;
     }
 
-    /* View */
     #view {
       flex: 1;
       overflow: auto;
@@ -258,7 +246,6 @@
       gap: 5px;
     }
 
-    /* Gradient Background */
     #gradient {
       z-index: -1;
       position: fixed;
@@ -277,7 +264,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Confetti Styles */
     .confetti {
       position: fixed;
       width: 10px;
@@ -286,11 +272,8 @@
       z-index: 999;
     }
 
-    /* Mobile Responsive */
     @media only screen and (max-width: 768px) {
-      html, body {
-        font-size: 14px;
-      }
+      html, body { font-size: 14px; }
 
       input, select, button {
         width: 100px;
@@ -305,13 +288,9 @@
         max-height: 70vh;
       }
 
-      #mazeCanvas {
-        max-width: 95vw;
-      }
+      #mazeCanvas { max-width: 95vw; }
 
-      h1 {
-        font-size: 2rem;
-      }
+      h1 { font-size: 2rem; }
 
       #menu {
         padding: 8px;
@@ -330,13 +309,8 @@
         min-height: 200px;
       }
 
-      #message h1 {
-        font-size: 1.5rem;
-      }
-
-      #message p {
-        font-size: 13px;
-      }
+      #message h1 { font-size: 1.5rem; }
+      #message p { font-size: 13px; }
     }
 
     @media only screen and (max-width: 480px) {
@@ -379,15 +353,13 @@
 </head>
 <body>
   <div id="gradient"></div>
-  
-  <!-- Hidden audio element for background music - IMPORTANT: User interaction required for mobile audio -->
+
   <audio id="backgroundMusic" loop playsinline webkit-playsinline>
     <source src="background-music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
   <div id="page">
-    <!-- Victory Message -->
     <div id="Message-Container">
       <div id="message">
         <h1>Congratulations! 🎉</h1>
@@ -398,7 +370,6 @@
       </div>
     </div>
 
-    <!-- Menu Section -->
     <div id="menu">
       <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: center;">
         <label for="diffSelect">Difficulty:</label>
@@ -417,7 +388,6 @@
       <div class="solution-info" id="solutionInfo"></div>
     </div>
 
-    <!-- Maze View with Timer -->
     <div id="view">
       <div class="timer-section" id="timerSection">
         ⏱️ <span id="timerText">0s</span>
@@ -434,7 +404,7 @@
     let dragStartY = 0;
     let isDragging = false;
     let lastMoveTime = 0;
-    const moveCooldown = 150; // Minimum ms between moves for smooth feel
+    const moveCooldown = 150;
 
     // ========== MAIN GAME VARIABLES ==========
     let maze;
@@ -461,9 +431,7 @@
     function formatTime(seconds) {
       const mins = Math.floor(seconds / 60);
       const secs = seconds % 60;
-      if (mins > 0) {
-        return `${mins}m ${secs}s`;
-      }
+      if (mins > 0) return `${mins}m ${secs}s`;
       return `${secs}s`;
     }
 
@@ -475,29 +443,21 @@
 
     function createConfetti() {
       const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'];
-      const confettiCount = 100;
-
-      for (let i = 0; i < confettiCount; i++) {
+      for (let i = 0; i < 100; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
-        
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * window.innerHeight - window.innerHeight;
-        
         confetti.style.left = x + 'px';
         confetti.style.top = y + 'px';
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-        
         document.body.appendChild(confetti);
-
         const duration = 3 + Math.random() * 2;
         const startTime = Date.now();
-        
         const animate = () => {
           const elapsed = (Date.now() - startTime) / 1000;
           const progress = elapsed / duration;
-
           if (progress < 1) {
             confetti.style.top = (y + progress * window.innerHeight) + 'px';
             confetti.style.opacity = 1 - progress;
@@ -507,7 +467,6 @@
             confetti.remove();
           }
         };
-
         animate();
       }
     }
@@ -515,19 +474,14 @@
     function displayVictoryMess(moves) {
       if (timerInterval) clearInterval(timerInterval);
       gameActive = false;
-      
       const audio = document.getElementById("backgroundMusic");
       audio.pause();
       audio.currentTime = 0;
-
       const elapsed = Math.floor((Date.now() - gameStartTime) / 1000);
-
       document.getElementById("moves").innerHTML = "You moved " + moves + " steps.";
       document.getElementById("timeDisplay").innerHTML = "Time: " + formatTime(elapsed);
-      
       createConfetti();
       toggleVisibility("Message-Container");
-
       document.getElementById("solveBtn").disabled = true;
       document.getElementById("quitBtn").disabled = true;
     }
@@ -542,16 +496,16 @@
       location.reload();
     }
 
-    // ========== MAZE CLASS ==========
+    // ========== MAZE CLASS (with multi-path braiding) ==========
     function Maze(width, height) {
       let mazeMap;
       let startCoord, endCoord;
       const dirs = ["n", "s", "e", "w"];
       const modDir = {
         n: { y: -1, x: 0, o: "s" },
-        s: { y: 1, x: 0, o: "n" },
-        e: { y: 0, x: 1, o: "w" },
-        w: { y: 0, x: -1, o: "e" }
+        s: { y:  1, x: 0, o: "n" },
+        e: { y:  0, x: 1, o: "w" },
+        w: { y:  0, x:-1, o: "e" }
       };
 
       this.map = () => mazeMap;
@@ -568,51 +522,80 @@
         }
       }
 
+      // Perfect maze via recursive backtracker (DFS)
       function defineMaze() {
         let pos = { x: 0, y: 0 };
         let cellsVisited = 1;
         const numCells = width * height;
-
         while (cellsVisited < numCells) {
           mazeMap[pos.y][pos.x].visited = true;
           shuffle(dirs);
-
           let moved = false;
           for (let dir of dirs) {
             const nx = pos.x + modDir[dir].x;
             const ny = pos.y + modDir[dir].y;
-            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-              if (!mazeMap[ny][nx].visited) {
-                mazeMap[pos.y][pos.x][dir] = true;
-                mazeMap[ny][nx][modDir[dir].o] = true;
-                mazeMap[ny][nx].priorPos = pos;
-                pos = { x: nx, y: ny };
-                cellsVisited++;
-                moved = true;
-                break;
-              }
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height && !mazeMap[ny][nx].visited) {
+              mazeMap[pos.y][pos.x][dir] = true;
+              mazeMap[ny][nx][modDir[dir].o] = true;
+              mazeMap[ny][nx].priorPos = pos;
+              pos = { x: nx, y: ny };
+              cellsVisited++;
+              moved = true;
+              break;
             }
           }
           if (!moved) pos = mazeMap[pos.y][pos.x].priorPos;
         }
       }
 
+      // ── MULTI-PATH BRAIDING ──────────────────────────────────────────────────
+      // After generating a perfect maze (exactly one path between any two cells),
+      // we "braid" it by randomly removing ~25% of remaining walls between
+      // adjacent cells. This creates loops so the user can approach the goal
+      // via multiple different routes, while A* still finds the shortest one.
+      function braidMaze() {
+        const braidFactor = 0.25; // fraction of dead-end walls to remove
+        const candidates = [];
+
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            // Collect every closed wall that has a valid neighbour
+            if (!mazeMap[y][x].s && y + 1 < height) candidates.push({ x, y, dir: "s" });
+            if (!mazeMap[y][x].e && x + 1 < width)  candidates.push({ x, y, dir: "e" });
+          }
+        }
+
+        shuffle(candidates);
+        const removeCount = Math.floor(candidates.length * braidFactor);
+
+        for (let i = 0; i < removeCount; i++) {
+          const { x, y, dir } = candidates[i];
+          const nx = x + modDir[dir].x;
+          const ny = y + modDir[dir].y;
+          // Open the wall in both directions
+          mazeMap[y][x][dir] = true;
+          mazeMap[ny][nx][modDir[dir].o] = true;
+        }
+      }
+      // ────────────────────────────────────────────────────────────────────────
+
       function defineStartEnd() {
         switch (rand(4)) {
-          case 0: startCoord = { x: 0, y: 0 }; endCoord = { x: width - 1, y: height - 1 }; break;
-          case 1: startCoord = { x: 0, y: height - 1 }; endCoord = { x: width - 1, y: 0 }; break;
-          case 2: startCoord = { x: width - 1, y: 0 }; endCoord = { x: 0, y: height - 1 }; break;
-          case 3: startCoord = { x: width - 1, y: height - 1 }; endCoord = { x: 0, y: 0 }; break;
+          case 0: startCoord = { x: 0,         y: 0          }; endCoord = { x: width-1,   y: height-1  }; break;
+          case 1: startCoord = { x: 0,         y: height-1   }; endCoord = { x: width-1,   y: 0         }; break;
+          case 2: startCoord = { x: width-1,   y: 0          }; endCoord = { x: 0,         y: height-1  }; break;
+          case 3: startCoord = { x: width-1,   y: height-1   }; endCoord = { x: 0,         y: 0         }; break;
         }
       }
 
       genMap();
       defineMaze();
+      braidMaze();   // ← create multiple paths
       defineStartEnd();
     }
 
     // ========== DRAWING CLASS ==========
-    function DrawMaze(mazeObj, ctx, cellSize, endSprite = null) {
+    function DrawMaze(mazeObj, ctx, cellSize) {
       const map = mazeObj.map();
       let drawEndMethod;
 
@@ -622,47 +605,25 @@
         ctx.strokeStyle = "black";
         ctx.lineWidth = cellSize / 40;
 
-        if (!cell.n) { 
-          ctx.beginPath(); 
-          ctx.moveTo(px, py); 
-          ctx.lineTo(px + cellSize, py); 
-          ctx.stroke(); 
-        }
-        if (!cell.s) { 
-          ctx.beginPath(); 
-          ctx.moveTo(px, py + cellSize); 
-          ctx.lineTo(px + cellSize, py + cellSize); 
-          ctx.stroke(); 
-        }
-        if (!cell.e) { 
-          ctx.beginPath(); 
-          ctx.moveTo(px + cellSize, py); 
-          ctx.lineTo(px + cellSize, py + cellSize); 
-          ctx.stroke(); 
-        }
-        if (!cell.w) { 
-          ctx.beginPath(); 
-          ctx.moveTo(px, py); 
-          ctx.lineTo(px, py + cellSize); 
-          ctx.stroke(); 
-        }
+        if (!cell.n) { ctx.beginPath(); ctx.moveTo(px, py);             ctx.lineTo(px + cellSize, py);             ctx.stroke(); }
+        if (!cell.s) { ctx.beginPath(); ctx.moveTo(px, py + cellSize);  ctx.lineTo(px + cellSize, py + cellSize);  ctx.stroke(); }
+        if (!cell.e) { ctx.beginPath(); ctx.moveTo(px + cellSize, py);  ctx.lineTo(px + cellSize, py + cellSize);  ctx.stroke(); }
+        if (!cell.w) { ctx.beginPath(); ctx.moveTo(px, py);             ctx.lineTo(px, py + cellSize);             ctx.stroke(); }
       }
 
       function drawMap() {
-        for (let y = 0; y < map.length; y++) {
-          for (let x = 0; x < map[y].length; x++) {
+        for (let y = 0; y < map.length; y++)
+          for (let x = 0; x < map[y].length; x++)
             drawCell(x, y, map[y][x]);
-          }
-        }
       }
 
       function drawEndFlag() {
         const coord = mazeObj.endCoord();
         ctx.fillStyle = "red";
         ctx.fillRect(
-          coord.x * cellSize + cellSize / 4, 
-          coord.y * cellSize + cellSize / 4, 
-          cellSize / 2, 
+          coord.x * cellSize + cellSize / 4,
+          coord.y * cellSize + cellSize / 4,
+          cellSize / 2,
           cellSize / 2
         );
       }
@@ -672,7 +633,6 @@
       }
 
       drawEndMethod = drawEndFlag;
-
       clear();
       drawMap();
       drawEndMethod();
@@ -684,108 +644,158 @@
         drawEndMethod();
       };
 
+      // ── Visualise A* result ──────────────────────────────────────────────────
+      // visitedCells  – every node A* popped from the open set (light-blue tint)
+      // path          – the optimal route (green line)
       this.drawSolution = function(visitedCells, path) {
         clear();
         drawMap();
 
+        // Shade explored cells
         for (let cell of visitedCells) {
           ctx.fillStyle = "rgba(173, 216, 230, 0.5)";
-          ctx.fillRect(
-            cell.x * cellSize + 2,
-            cell.y * cellSize + 2,
-            cellSize - 4,
-            cellSize - 4
-          );
+          ctx.fillRect(cell.x * cellSize + 2, cell.y * cellSize + 2, cellSize - 4, cellSize - 4);
         }
 
+        // Draw shortest path
         if (path.length > 1) {
           ctx.strokeStyle = "#00AA00";
           ctx.lineWidth = cellSize / 4;
           ctx.lineCap = "round";
           ctx.lineJoin = "round";
-          
           ctx.beginPath();
-          ctx.moveTo(
-            (path[0].x + 0.5) * cellSize,
-            (path[0].y + 0.5) * cellSize
-          );
-          
-          for (let i = 1; i < path.length; i++) {
-            ctx.lineTo(
-              (path[i].x + 0.5) * cellSize,
-              (path[i].y + 0.5) * cellSize
-            );
-          }
+          ctx.moveTo((path[0].x + 0.5) * cellSize, (path[0].y + 0.5) * cellSize);
+          for (let i = 1; i < path.length; i++)
+            ctx.lineTo((path[i].x + 0.5) * cellSize, (path[i].y + 0.5) * cellSize);
           ctx.stroke();
         }
 
         drawEndMethod();
       };
+      // ────────────────────────────────────────────────────────────────────────
     }
 
-    // ========== DFS SOLVER ==========
-    function DFSSolver(mazeObj) {
-      const map = mazeObj.map();
-      const width = map[0].length;
-      const height = map.length;
+    // ========== A* SOLVER ==========
+    // Replaces the old DFS solver.
+    // Uses Manhattan-distance heuristic; guarantees the SHORTEST path.
+    //
+    // Returns { path, visitedOrder } where:
+    //   path        – optimal sequence of {x,y} nodes from start → end
+    //   visitedOrder – all nodes that A* expanded (for the blue exploration overlay)
+    function AStarSolver(mazeObj) {
+      const map   = mazeObj.map();
       const start = mazeObj.startCoord();
-      const end = mazeObj.endCoord();
+      const end   = mazeObj.endCoord();
 
-      const visited = new Set();
-      const path = [];
+      // Manhattan distance heuristic
+      function heuristic(a, b) {
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+      }
+
+      // Min-heap (priority queue) – simple binary-heap implementation
+      class MinHeap {
+        constructor() { this.heap = []; }
+        push(item) {
+          this.heap.push(item);
+          this._bubbleUp(this.heap.length - 1);
+        }
+        pop() {
+          const top = this.heap[0];
+          const last = this.heap.pop();
+          if (this.heap.length > 0) {
+            this.heap[0] = last;
+            this._sinkDown(0);
+          }
+          return top;
+        }
+        get size() { return this.heap.length; }
+        _bubbleUp(i) {
+          while (i > 0) {
+            const parent = Math.floor((i - 1) / 2);
+            if (this.heap[parent].f <= this.heap[i].f) break;
+            [this.heap[parent], this.heap[i]] = [this.heap[i], this.heap[parent]];
+            i = parent;
+          }
+        }
+        _sinkDown(i) {
+          const n = this.heap.length;
+          while (true) {
+            let smallest = i;
+            const l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && this.heap[l].f < this.heap[smallest].f) smallest = l;
+            if (r < n && this.heap[r].f < this.heap[smallest].f) smallest = r;
+            if (smallest === i) break;
+            [this.heap[smallest], this.heap[i]] = [this.heap[i], this.heap[smallest]];
+            i = smallest;
+          }
+        }
+      }
+
+      const key = (x, y) => `${x},${y}`;
+
+      const gScore   = {};   // cost from start to node
+      const cameFrom = {};   // for path reconstruction
       const visitedOrder = [];
 
-      function dfs(current) {
-        const key = `${current.x},${current.y}`;
-        
-        if (visited.has(key)) {
-          return false;
-        }
+      gScore[key(start.x, start.y)] = 0;
 
-        visited.add(key);
+      const openSet = new MinHeap();
+      openSet.push({ x: start.x, y: start.y, f: heuristic(start, end) });
+
+      const closed = new Set();
+
+      const directions = [
+        { dir: "n", dx: 0,  dy: -1 },
+        { dir: "s", dx: 0,  dy:  1 },
+        { dir: "e", dx: 1,  dy:  0 },
+        { dir: "w", dx: -1, dy:  0 },
+      ];
+
+      while (openSet.size > 0) {
+        const current = openSet.pop();
+        const ck = key(current.x, current.y);
+
+        if (closed.has(ck)) continue;
+        closed.add(ck);
         visitedOrder.push({ x: current.x, y: current.y });
-        path.push({ x: current.x, y: current.y });
 
+        // Reached the goal – reconstruct path
         if (current.x === end.x && current.y === end.y) {
-          return true;
+          const path = [];
+          let node = ck;
+          while (node) {
+            const [nx, ny] = node.split(",").map(Number);
+            path.unshift({ x: nx, y: ny });
+            node = cameFrom[node];
+          }
+          return { path, visitedOrder };
         }
 
         const cell = map[current.y][current.x];
-        
-        if (cell.n) {
-          if (dfs({ x: current.x, y: current.y - 1 })) {
-            return true;
-          }
-        }
-        
-        if (cell.s) {
-          if (dfs({ x: current.x, y: current.y + 1 })) {
-            return true;
-          }
-        }
-        
-        if (cell.e) {
-          if (dfs({ x: current.x + 1, y: current.y })) {
-            return true;
-          }
-        }
-        
-        if (cell.w) {
-          if (dfs({ x: current.x - 1, y: current.y })) {
-            return true;
-          }
-        }
+        const g = gScore[ck];
 
-        path.pop();
-        return false;
+        for (const { dir, dx, dy } of directions) {
+          if (!cell[dir]) continue;           // wall blocks this direction
+          const nx = current.x + dx;
+          const ny = current.y + dy;
+          const nk = key(nx, ny);
+          if (closed.has(nk)) continue;
+
+          const tentativeG = g + 1;
+          if (tentativeG < (gScore[nk] ?? Infinity)) {
+            gScore[nk]   = tentativeG;
+            cameFrom[nk] = ck;
+            openSet.push({ x: nx, y: ny, f: tentativeG + heuristic({ x: nx, y: ny }, end) });
+          }
+        }
       }
 
-      dfs(start);
-      return { path, visitedOrder };
+      // No path found (should not happen in a connected maze)
+      return { path: [], visitedOrder };
     }
 
-    // ========== PLAYER CLASS WITH SMOOTH TOUCH DRAG ==========
-    function Player(mazeObj, canvas, cellSize, onComplete, sprite = null) {
+    // ========== PLAYER CLASS ==========
+    function Player(mazeObj, canvas, cellSize, onComplete) {
       const ctx = canvas.getContext("2d");
       let moves = 0;
       let cellCoords = { x: mazeObj.startCoord().x, y: mazeObj.startCoord().y };
@@ -794,15 +804,8 @@
       function drawSprite(coord) {
         ctx.fillStyle = "yellow";
         ctx.beginPath();
-        ctx.arc(
-          (coord.x + 0.5) * cellSize, 
-          (coord.y + 0.5) * cellSize, 
-          cellSize / 3, 
-          0, 
-          2 * Math.PI
-        );
+        ctx.arc((coord.x + 0.5) * cellSize, (coord.y + 0.5) * cellSize, cellSize / 3, 0, 2 * Math.PI);
         ctx.fill();
-
         if (coord.x === mazeObj.endCoord().x && coord.y === mazeObj.endCoord().y) {
           onComplete(moves);
           player.unbindKeyDown();
@@ -811,80 +814,41 @@
       }
 
       function removeSprite(coord) {
-        const centerX = (coord.x + 0.5) * cellSize;
-        const centerY = (coord.y + 0.5) * cellSize;
-        const radius = cellSize / 3;
-        
-        const clearSize = radius * 2.2;
-        ctx.clearRect(
-          centerX - clearSize / 2, 
-          centerY - clearSize / 2, 
-          clearSize, 
-          clearSize
-        );
+        const cx = (coord.x + 0.5) * cellSize;
+        const cy = (coord.y + 0.5) * cellSize;
+        const r  = cellSize / 3;
+        const s  = r * 2.2;
+        ctx.clearRect(cx - s / 2, cy - s / 2, s, s);
       }
 
       function movePlayer(direction) {
-        // Apply cooldown to prevent multiple rapid moves
         const now = Date.now();
-        if (now - lastMoveTime < moveCooldown) {
-          return;
-        }
+        if (now - lastMoveTime < moveCooldown) return;
         lastMoveTime = now;
-
         if (!gameActive) return;
 
         const cell = mazeObj.map()[cellCoords.y][cellCoords.x];
         let moved = false;
 
-        switch(direction) {
-          case 'up':
-            if (cell.n) {
-              removeSprite(cellCoords);
-              cellCoords.y--;
-              moved = true;
-            }
-            break;
-          case 'down':
-            if (cell.s) {
-              removeSprite(cellCoords);
-              cellCoords.y++;
-              moved = true;
-            }
-            break;
-          case 'left':
-            if (cell.w) {
-              removeSprite(cellCoords);
-              cellCoords.x--;
-              moved = true;
-            }
-            break;
-          case 'right':
-            if (cell.e) {
-              removeSprite(cellCoords);
-              cellCoords.x++;
-              moved = true;
-            }
-            break;
+        switch (direction) {
+          case 'up':    if (cell.n) { removeSprite(cellCoords); cellCoords.y--; moved = true; } break;
+          case 'down':  if (cell.s) { removeSprite(cellCoords); cellCoords.y++; moved = true; } break;
+          case 'left':  if (cell.w) { removeSprite(cellCoords); cellCoords.x--; moved = true; } break;
+          case 'right': if (cell.e) { removeSprite(cellCoords); cellCoords.x++; moved = true; } break;
         }
 
-        if (moved) {
-          moves++;
-          drawSprite(cellCoords);
-        }
+        if (moved) { moves++; drawSprite(cellCoords); }
       }
 
-      // Keyboard handler
       function check(e) {
         switch (e.keyCode) {
-          case 37: movePlayer('left'); break;   // left arrow
-          case 38: movePlayer('up'); break;     // up arrow
-          case 39: movePlayer('right'); break;  // right arrow
-          case 40: movePlayer('down'); break;   // down arrow
+          case 37: movePlayer('left');  break;
+          case 38: movePlayer('up');    break;
+          case 39: movePlayer('right'); break;
+          case 40: movePlayer('down');  break;
         }
       }
 
-      // FIXED: Smooth drag/swipe with correct directions
       function handleTouchStart(e) {
         isDragging = true;
         dragStartX = e.touches[0].clientX;
@@ -893,75 +857,43 @@
 
       function handleTouchMove(e) {
         if (!isDragging || !gameActive) return;
-        e.preventDefault(); // Prevent scrolling
-        
+        e.preventDefault();
         const currentX = e.touches[0].clientX;
         const currentY = e.touches[0].clientY;
-        
         const diffX = currentX - dragStartX;
         const diffY = currentY - dragStartY;
-
-        // Determine direction based on largest movement
         const threshold = 30;
-        
+
         if (Math.abs(diffX) > Math.abs(diffY)) {
-          // Horizontal movement - FIXED DIRECTION
-          if (diffX > threshold) {
-            // Moved right
-            movePlayer('right');
-            dragStartX = currentX; // Reset for next movement
-          } else if (diffX < -threshold) {
-            // Moved left
-            movePlayer('left');
-            dragStartX = currentX; // Reset for next movement
-          }
+          if      (diffX >  threshold) { movePlayer('right'); dragStartX = currentX; }
+          else if (diffX < -threshold) { movePlayer('left');  dragStartX = currentX; }
         } else if (Math.abs(diffY) > threshold) {
-          // Vertical movement - FIXED DIRECTION
-          if (diffY > threshold) {
-            // Moved down
-            movePlayer('down');
-            dragStartY = currentY; // Reset for next movement
-          } else if (diffY < -threshold) {
-            // Moved up
-            movePlayer('up');
-            dragStartY = currentY; // Reset for next movement
-          }
+          if      (diffY >  threshold) { movePlayer('down'); dragStartY = currentY; }
+          else if (diffY < -threshold) { movePlayer('up');   dragStartY = currentY; }
         }
       }
 
-      function handleTouchEnd(e) {
-        isDragging = false;
-      }
+      function handleTouchEnd() { isDragging = false; }
 
-      this.bindKeyDown = function() {
-        window.addEventListener("keydown", check, false);
-      };
-
-      this.bindTouchDrag = function() {
+      this.bindKeyDown    = () => window.addEventListener("keydown", check, false);
+      this.bindTouchDrag  = () => {
         document.addEventListener("touchstart", handleTouchStart, false);
-        document.addEventListener("touchmove", handleTouchMove, false);
-        document.addEventListener("touchend", handleTouchEnd, false);
+        document.addEventListener("touchmove",  handleTouchMove,  false);
+        document.addEventListener("touchend",   handleTouchEnd,   false);
       };
-
-      this.unbindKeyDown = function() {
-        window.removeEventListener("keydown", check, false);
-      };
-
-      this.unbindTouchDrag = function() {
+      this.unbindKeyDown  = () => window.removeEventListener("keydown", check, false);
+      this.unbindTouchDrag = () => {
         document.removeEventListener("touchstart", handleTouchStart, false);
-        document.removeEventListener("touchmove", handleTouchMove, false);
-        document.removeEventListener("touchend", handleTouchEnd, false);
+        document.removeEventListener("touchmove",  handleTouchMove,  false);
+        document.removeEventListener("touchend",   handleTouchEnd,   false);
       };
 
       drawSprite(cellCoords);
     }
 
-    // ========== SOLVE MAZE FUNCTION ==========
+    // ========== SOLVE MAZE (A*) ==========
     function solveMaze() {
-      if (!maze || !drawMaze) {
-        alert("Please start a game first!");
-        return;
-      }
+      if (!maze || !drawMaze) { alert("Please start a game first!"); return; }
 
       gameActive = false;
       if (timerInterval) clearInterval(timerInterval);
@@ -971,70 +903,59 @@
         player.unbindTouchDrag();
       }
 
-      const result = DFSSolver(maze);
+      const result = AStarSolver(maze);
 
       if (result.path && result.path.length > 0) {
         drawMaze.drawSolution(result.visitedOrder, result.path);
-
-        document.getElementById("solutionInfo").textContent = 
-          `✓ Solution Found! Path length: ${result.path.length} steps | Cells explored: ${result.visitedOrder.length}`;
+        document.getElementById("solutionInfo").textContent =
+          `⭐ A* Shortest Path: ${result.path.length - 1} steps | Cells explored: ${result.visitedOrder.length}`;
         document.getElementById("solutionInfo").classList.add("active");
       } else {
-        alert("No solution found! (This shouldn't happen)");
+        alert("No solution found!");
       }
 
       document.getElementById("solveBtn").disabled = true;
     }
 
-    // ========== QUIT GAME FUNCTION ==========
+    // ========== QUIT GAME ==========
     function quitGame() {
       gameActive = false;
       if (timerInterval) clearInterval(timerInterval);
 
-      if (player) {
-        player.unbindKeyDown();
-        player.unbindTouchDrag();
-      }
+      if (player) { player.unbindKeyDown(); player.unbindTouchDrag(); }
 
       const audio = document.getElementById("backgroundMusic");
       audio.pause();
       audio.currentTime = 0;
 
       document.getElementById("solutionInfo").classList.remove("active");
-
       document.getElementById("solveBtn").disabled = true;
       document.getElementById("quitBtn").disabled = true;
 
       const timeElapsed = Math.floor((Date.now() - gameStartTime) / 1000);
       alert(`Game Quit! Time played: ${formatTime(timeElapsed)}`);
 
-      setTimeout(() => {
-        location.reload();
-      }, 500);
+      setTimeout(() => location.reload(), 500);
     }
 
-    // ========== MAIN GAME FUNCTION WITH MOBILE AUDIO FIX ==========
+    // ========== MAKE MAZE ==========
     function makeMaze() {
-      const diffSelect = document.getElementById("diffSelect");
-      const cellNum = parseInt(diffSelect.value);
-      
-      const canvas = document.getElementById("mazeCanvas");
+      const cellNum     = parseInt(document.getElementById("diffSelect").value);
+      const canvas      = document.getElementById("mazeCanvas");
       const mazeContainer = document.getElementById("mazeContainer");
-      
-      // Make canvas responsive
       const containerWidth = mazeContainer.offsetWidth;
-      const canvasSize = Math.min(800, containerWidth - 20);
-      const cellSize = canvasSize / cellNum;
-      currentCellSize = cellSize;
+      const canvasSize  = Math.min(800, containerWidth - 20);
+      const cellSize    = canvasSize / cellNum;
+      currentCellSize   = cellSize;
 
-      canvas.width = canvasSize;
+      canvas.width  = canvasSize;
       canvas.height = canvasSize;
 
       const ctx = canvas.getContext("2d");
 
-      maze = new Maze(cellNum, cellNum);
+      maze     = new Maze(cellNum, cellNum);
       drawMaze = new DrawMaze(maze, ctx, cellSize);
-      player = new Player(maze, canvas, cellSize, displayVictoryMess);
+      player   = new Player(maze, canvas, cellSize, displayVictoryMess);
 
       player.bindKeyDown();
       player.bindTouchDrag();
@@ -1042,57 +963,39 @@
       mazeContainer.style.opacity = "1";
       document.getElementById("timerSection").classList.add("active");
       document.getElementById("solutionInfo").classList.remove("active");
-
       document.getElementById("solveBtn").disabled = false;
-      document.getElementById("quitBtn").disabled = false;
+      document.getElementById("quitBtn").disabled  = false;
 
-      gameActive = true;
-      gameStartTime = Date.now();
-      lastMoveTime = 0; // Reset move timing
+      gameActive     = true;
+      gameStartTime  = Date.now();
+      lastMoveTime   = 0;
 
       if (timerInterval) clearInterval(timerInterval);
       timerInterval = setInterval(updateTimer, 100);
 
-      // FIXED AUDIO: Use different approach for mobile
       const audio = document.getElementById("backgroundMusic");
       audio.currentTime = 0;
-      
-      // Try to play with error handling
       const playPromise = audio.play();
       if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log("Audio playing successfully");
-          })
-          .catch((error) => {
-            console.log("Audio autoplay failed (mobile may require user interaction):", error);
-            // On mobile, audio will start on user's first interaction
-            // Add one-time listener for user interaction
-            function enableAudioOnInteraction() {
-              audio.play().catch(() => {});
-              document.removeEventListener("touchstart", enableAudioOnInteraction);
-              document.removeEventListener("click", enableAudioOnInteraction);
-            }
-            document.addEventListener("touchstart", enableAudioOnInteraction);
-            document.addEventListener("click", enableAudioOnInteraction);
-          });
+        playPromise.catch(() => {
+          function enableAudio() {
+            audio.play().catch(() => {});
+            document.removeEventListener("touchstart", enableAudio);
+            document.removeEventListener("click",      enableAudio);
+          }
+          document.addEventListener("touchstart", enableAudio);
+          document.addEventListener("click",      enableAudio);
+        });
       }
-      
-      console.log("Maze game started!");
     }
 
-    // ========== WINDOW RESIZE HANDLER ==========
+    // ========== RESIZE HANDLER ==========
     window.addEventListener("resize", function() {
-      if (drawMaze && currentCellSize) {
-        const canvas = document.getElementById("mazeCanvas");
-        const ctx = canvas.getContext("2d");
-        drawMaze.redrawMaze(currentCellSize);
-      }
+      if (drawMaze && currentCellSize) drawMaze.redrawMaze(currentCellSize);
     });
 
-    // ========== PAGE LOAD ==========
     document.addEventListener("DOMContentLoaded", function() {
-      console.log("Maze Game Mobile & Desktop Edition loaded!");
+      console.log("Maze Game (A* + Multi-path) loaded!");
     });
   </script>
 </body>
